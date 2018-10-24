@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    {{ message }}
+
+    <a v-bind:href="url">点击我吧</a>
+    <a :href="url">点击我吧2</a>
+    <button v-on:click="doSomething">点击方法额</button>
+    <button @click="doSomething">点击方法额2</button>
+    <p>Original message: "{{ message }}"</p>
+    <p>function reversed message: "{{ reversedMessage() }}"</p>
+    <p>Computed reversed message: "{{ reversedMessage2 }}"</p>
+    <div class="static " v-bind:class="{ active: isActive, 'text-danger': hasError }">
+        看我的class属性
+    </div>
+    <div class="static" v-bind:class="classObject">
+        看我的class属性2
+    </div>
+
+    <div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">看看我的style</div>
+    <div v-bind:style="styleObject">看看我的style2</div>
+    <div v-bind:style="[styleObject,styleObject2]">看看我的style3</div>
+
+</div>
+
+<div id="demo">{{ fullName }}</div>
+</body>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue!',
+            url: 'http://www.baidu.com',
+            isActive: true,
+            hasError: true,
+            classObject: {
+                active: true,
+                'text-danger': true
+            },
+            activeColor: 'red',
+            fontSize: 30,
+            styleObject: {
+                color: 'red',
+                fontSize: '13px'
+            },
+            styleObject2: {
+                color: 'blue',
+                fontSize: '13px'
+            }
+        },
+        methods: {
+            doSomething: function () {
+                alert("我累了");
+            },
+            reversedMessage: function () {
+                return this.message.split('').reverse().join('');
+            }
+        },
+        computed: {
+            reversedMessage2: function () {
+                return this.message.split('').reverse().join('');
+            }
+        }
+    })
+
+    var vm = new Vue({
+        el: '#demo',
+        data: {
+            firstName: 'Foo',
+            lastName: 'Bar'
+        },
+        computed: {
+            fullName: {
+                // getter
+                get: function () {
+                    return this.firstName + ' ' + this.lastName
+                },
+                // setter
+                set: function (newValue) {
+                    var names = newValue.split(' ')
+                    this.firstName = names[0]
+                    this.lastName = names[names.length - 1]
+                }
+            }
+        }
+    })
+</script>
+</html>
